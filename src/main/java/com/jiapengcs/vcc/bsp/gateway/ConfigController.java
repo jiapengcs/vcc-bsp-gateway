@@ -1,11 +1,12 @@
 package com.jiapengcs.vcc.bsp.gateway;
 
-import com.netflix.hystrix.HystrixCommandProperties;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Jiapeng
@@ -15,11 +16,16 @@ import javax.annotation.Resource;
 @RestController
 public class ConfigController {
 
+    private static final Logger logger = LoggerFactory.getLogger(ConfigController.class);
+
     @Resource
     private Config config;
+    @Resource
+    private HttpServletRequest request;
 
     @RequestMapping("/admin")
     public String admin() {
+        logger.info("request from: " + request.getRemoteAddr());
         return "Config data: " + config;
     }
 }
